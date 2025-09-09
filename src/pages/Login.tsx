@@ -1,6 +1,7 @@
 import { type FormEvent } from 'react';
-import sideImageUrl from '../assets/login-side.png';
 import { Link } from 'react-router-dom';
+
+import sideImageUrl from '../assets/login-side.png';
 
 export default function Login() {
   function onSubmit(e: FormEvent) {
@@ -10,7 +11,6 @@ export default function Login() {
 
   return (
     <div className='min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-white text-slate-900'>
-      {/* LEFT: image (skriven na malim ekranima) */}
       <div className='relative hidden lg:block'>
         <img
           src={sideImageUrl}
@@ -18,14 +18,11 @@ export default function Login() {
           className='absolute inset-0 h-full w-full object-cover'
           loading='eager'
         />
-        {/* blagi overlay za čitljivost po potrebi */}
         <div className='absolute inset-0 bg-black/10' />
       </div>
 
-      {/* RIGHT: form */}
       <div className='flex items-center justify-center px-6 py-10 sm:px-10'>
         <div className='w-full max-w-md'>
-          {/* Heading */}
           <h1 className='text-3xl sm:text-4xl font-semibold leading-tight text-center'>
             Dobrodošli nazad <br />
             <span className='text-[color:var(--secondary)]'>na</span>{' '}
@@ -38,9 +35,7 @@ export default function Login() {
             Prijavite se na Vaš nalog
           </p>
 
-          {/* Form */}
           <form onSubmit={onSubmit} className='mt-6 space-y-4'>
-            {/* Email */}
             <div>
               <label
                 htmlFor='email'
@@ -58,7 +53,6 @@ export default function Login() {
               />
             </div>
 
-            {/* Password */}
             <div>
               <label
                 htmlFor='password'
@@ -75,7 +69,6 @@ export default function Login() {
               />
             </div>
 
-            {/* Login button */}
             <button
               type='submit'
               className='cursor-pointer w-full rounded-lg bg-[color:var(--secondary)] px-4 py-2.5 font-medium text-white shadow-sm transition hover:bg-[color:var(--primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--highlight)]'
