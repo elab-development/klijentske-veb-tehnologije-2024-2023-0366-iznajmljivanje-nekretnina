@@ -24,7 +24,7 @@ export default function App() {
             <Route path='/rentals/:id' element={<RentalDetails />} />
           </Route>
 
-          <Route path='*' element={<RequireAuth />} />
+          <Route path='*' element={<RedirectIfAuth />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

@@ -4,7 +4,7 @@ import {
   type ICredentials,
   type IRegisterPayload,
   type IUser,
-} from '../types/user'; 
+} from '../types/user';
 import { authManager } from '../lib/auth';
 
 type AuthContextValue = {

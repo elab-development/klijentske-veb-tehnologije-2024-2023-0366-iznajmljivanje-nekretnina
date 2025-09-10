@@ -1,12 +1,45 @@
-import { type FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { type FormEvent, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
+import { useAuth } from '../store/auth-context';
 import sideImageUrl from '../assets/register-side.png';
 
 export default function Register() {
-  function onSubmit(e: FormEvent) {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // TODO: handle sign up
+    const fd = new FormData(e.currentTarget);
+
+    const fullName = (fd.get('name') as string)?.trim();
+    const email = (fd.get('email') as string)?.trim();
+    const password = (fd.get('password') as string) || '';
+    const confirm = (fd.get('confirm') as string) || '';
+    const phone = (fd.get('phone') as string)?.trim() || undefined;
+
+    if (password !== confirm) {
+      setError('Lozinke se ne poklapaju.');
+      return;
+    }
+    if (password.length < 6) {
+      setError('Lozinka mora imati najmanje 6 karaktera.');
+      return;
+    }
+
+    setError(null);
+    setLoading(true);
+    try {
+      await register({ fullName, email, password, phone });
+      navigate('/', { replace: true });
+    } catch (err: any) {
+      setError(err?.message || 'Registracija neuspešna.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -114,11 +147,16 @@ export default function Register() {
               />
             </div>
 
+            {error && (
+              <p className='text-sm font-medium text-red-600'>{error}</p>
+            )}
+
             <button
               type='submit'
-              className='cursor-pointer w-full rounded-lg bg-[color:var(--secondary)] px-4 py-2.5 font-medium text-white shadow-sm transition hover:bg-[color:var(--primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--highlight)]'
+              disabled={loading}
+              className='cursor-pointer w-full rounded-lg bg-[color:var(--secondary)] px-4 py-2.5 font-medium text-white shadow-sm transition hover:bg-[color:var(--primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--highlight)] disabled:opacity-50 disabled:cursor-not-allowed'
             >
-              Sign up
+              {loading ? 'Kreiranje naloga...' : 'Registruj se'}
             </button>
           </form>
 
